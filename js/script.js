@@ -101,5 +101,14 @@ if (contactForm) {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const preloader = document.getElementById('preloader');
+    
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+        }, 1500);
+    });
+});
 
 console.log('Softcode Web Studio - JavaScript Loaded Successfully! 🚀');

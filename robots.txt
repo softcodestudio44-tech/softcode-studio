@@ -8,7 +8,7 @@ Disallow: /tmp/
 Crawl-delay: 10
 
 # Sitemap location
-Sitemap: https://softcodestudio.vercel.app/sitemap.xml
+Sitemap: https://softcode-studio.vercel.app/sitemap.xml
 
 # Specific rules for major bots
 User-agent: Googlebot
