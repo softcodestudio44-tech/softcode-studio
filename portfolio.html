@@ -9,22 +9,275 @@
     <link rel="canonical" href="https://softcode-studio.vercel.app/portfolio.html">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Portfolio-specific styles -->
+    <style>
+        /* Portfolio Cards with Images */
+        .portfolio-card {
+            padding: 0;
+            overflow: hidden;
+            text-align: left;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(74, 158, 255, 0.1);
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(74, 158, 255, 0.2);
+            border-color: rgba(74, 158, 255, 0.3);
+        }
+
+        .portfolio-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: var(--darker-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-card:hover .portfolio-image img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 22, 40, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .portfolio-card:hover .portfolio-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .portfolio-overlay .btn {
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 11;
+        }
+
+        .portfolio-card:hover .portfolio-overlay .btn {
+            transform: translateY(0);
+        }
+
+        .portfolio-content {
+            padding: 30px;
+        }
+
+        .portfolio-category {
+            display: inline-block;
+            background: rgba(74, 158, 255, 0.2);
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .portfolio-content h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: var(--text-white);
+        }
+
+        .portfolio-content p {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .portfolio-tags span {
+            background: rgba(74, 158, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: var(--text-gray);
+            border: 1px solid rgba(74, 158, 255, 0.2);
+        }
+
+        /* Placeholder styling */
+        .portfolio-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--card-bg) 100%);
+            color: var(--text-gray);
+        }
+
+        .portfolio-placeholder-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .portfolio-placeholder-text {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 9999;
+            transition: all 0.3s ease;
+            animation: pulse-whatsapp 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes pulse-whatsapp {
+            0% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 30px rgba(37, 211, 102, 0.8);
+            }
+            100% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+        }
+
+        .whatsapp-tooltip {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--card-bg);
+            color: var(--text-white);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9998;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .whatsapp-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 20px;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--card-bg);
+        }
+
+        .whatsapp-float:hover + .whatsapp-tooltip,
+        .whatsapp-tooltip:hover {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .whatsapp-tooltip {
+                right: 20px;
+                font-size: 12px;
+                bottom: 80px;
+            }
+            
+            .portfolio-image {
+                height: 180px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">
+                <img src="images/logo.png" alt="Softcode Web Studio">
+            </div>
+            <div class="preloader-text">
+                <span class="loading-text">Loading</span>
+                <span class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-           <div class="logo">
-    <img src="images/logo.png" alt="Softcode Web Studio Logo">
-    <div class="logo-text">
-        <div class="logo-main">Softcode</div>
-        <div class="logo-sub">WEB STUDIO</div>
-    </div>
-</div>
+            <div class="logo">
+                <img src="images/logo.png" alt="Softcode Web Studio Logo">
+                <div class="logo-text">
+                    <div class="logo-main">Softcode</div>
+                    <div class="logo-sub">WEB STUDIO</div>
+                </div>
+            </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -50,89 +303,98 @@
     </section>
 
     <!-- Portfolio Grid -->
-    <section class="services-overview">
-        <div class="container">
-            <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
-                <!-- Project 1 -->
-                <div class="service-card">
-                    <div class="service-icon">🍕</div>
-                    <h3>Lagos Food Hub</h3>
-                    <span style="display: inline-block; background: rgba(74, 158, 255, 0.2); color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-size: 14px; margin-bottom: 15px;">Restaurant</span>
-                    <p>A modern restaurant website with online ordering system, menu display, and reservation booking.</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Responsive Design</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">E-commerce</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">SEO</span>
+   <!-- Portfolio Grid -->
+<section class="services-overview">
+    <div class="container">
+        <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
+            
+            <!-- Project 1: DHEBRONIX Multimedia -->
+            <div class="portfolio-card">
+                <div class="portfolio-image">
+                    <img src="images/portfolio/dhebronix.jpg" alt="DHEBRONIX Multimedia Website">
+                    <div class="portfolio-overlay">
+                        <a href="https://dhebronixmc.top" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Live Site</a>
                     </div>
                 </div>
-
-                <!-- Project 2 -->
-                <div class="service-card">
-                    <div class="service-icon">🏪</div>
-                    <h3>Fashion Boutique</h3>
-                    <span style="display: inline-block; background: rgba(74, 158, 255, 0.2); color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-size: 14px; margin-bottom: 15px;">E-commerce</span>
-                    <p>Complete e-commerce solution with product catalog, shopping cart, and secure payment integration.</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">WooCommerce</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Payment Gateway</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Mobile App</span>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="service-card">
-                    <div class="service-icon">🏢</div>
-                    <h3>Tech Solutions Ltd</h3>
-                    <span style="display: inline-block; background: rgba(74, 158, 255, 0.2); color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-size: 14px; margin-bottom: 15px;">Corporate</span>
-                    <p>Professional corporate website with services showcase, client testimonials, and contact forms.</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Corporate Design</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">CMS</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Blog</span>
-                    </div>
-                </div>
-
-                <!-- Project 4 -->
-                <div class="service-card">
-                    <div class="service-icon">💪</div>
-                    <h3>FitLife Gym</h3>
-                    <span style="display: inline-block; background: rgba(74, 158, 255, 0.2); color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-size: 14px; margin-bottom: 15px;">Health & Fitness</span>
-                    <p>Dynamic fitness center website with class schedules, membership plans, and trainer profiles.</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Booking System</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Member Portal</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Video Integration</span>
-                    </div>
-                </div>
-
-                <!-- Project 5 -->
-                <div class="service-card">
-                    <div class="service-icon">📚</div>
-                    <h3>Smart Academy</h3>
-                    <span style="display: inline-block; background: rgba(74, 158, 255, 0.2); color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-size: 14px; margin-bottom: 15px;">Education</span>
-                    <p>Educational platform with course catalog, student portal, and online learning resources.</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">LMS</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Student Portal</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Payment System</span>
-                    </div>
-                </div>
-
-                <!-- Project 6 -->
-                <div class="service-card">
-                    <div class="service-icon">🏠</div>
-                    <h3>Prime Properties</h3>
-                    <span style="display: inline-block; background: rgba(74, 158, 255, 0.2); color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-size: 14px; margin-bottom: 15px;">Real Estate</span>
-                    <p>Real estate website with property listings, search filters, and virtual tour integration.</p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Property Listings</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Search Filters</span>
-                        <span style="background: rgba(74, 158, 255, 0.1); padding: 5px 12px; border-radius: 5px; font-size: 13px; color: var(--text-gray);">Google Maps</span>
+                <div class="portfolio-content">
+                    <span class="portfolio-category">Sound Engineering & Multimedia</span>
+                    <h3>DHEBRONIX Multimedia Company</h3>
+                    <p>A professional sound engineering company website with equipment sales, event portfolio, and admin dashboard. Features Firebase backend for real-time data management.</p>
+                    <div class="portfolio-tags">
+                        <span>Firebase</span>
+                        <span>Equipment Sales</span>
+                        <span>Admin Panel</span>
+                        <span>Responsive</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+
+            <!-- Project 2: Softcode Studio -->
+            <div class="portfolio-card">
+                <div class="portfolio-image">
+                    <img src="images/portfolio/softcode.jpg" alt="Softcode Web Studio Website">
+                    <div class="portfolio-overlay">
+                        <a href="https://softcode-studio.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Live Site</a>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <span class="portfolio-category">Web Development Agency</span>
+                    <h3>Softcode Web Studio</h3>
+                    <p>Our own agency website featuring modern dark theme, smooth animations, pricing packages, and contact forms. Built with pure HTML, CSS, and JavaScript.</p>
+                    <div class="portfolio-tags">
+                        <span>HTML5/CSS3</span>
+                        <span>JavaScript</span>
+                        <span>SEO Optimized</span>
+                        <span>Dark Theme</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: City Changers NG -->
+            <div class="portfolio-card">
+                <div class="portfolio-image">
+                    <img src="images/portfolio/citychangers.jpg" alt="City Changers NG Website">
+                    <div class="portfolio-overlay">
+                        <a href="https://www.citychangersng.org/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View Live Site</a>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <span class="portfolio-category">Non-Profit Organization</span>
+                    <h3>City Changers NG</h3>
+                    <p>A community development organization website featuring event management, donation integration, volunteer registration, and impact stories showcase.</p>
+                    <div class="portfolio-tags">
+                        <span>Non-Profit</span>
+                        <span>Event Management</span>
+                        <span>Donation System</span>
+                        <span>Volunteer Portal</span>
+                    </div>
+                </div>
+            </div>
+<!-- Project 4: Coming Soon -->
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <div class="portfolio-placeholder">
+                            <div class="portfolio-placeholder-icon">🚀</div>
+                            <div class="portfolio-placeholder-text">Your Project Here</div>
+                        </div>
+                        <div class="portfolio-overlay">
+                            <a href="contact.html" class="btn btn-primary">Start Your Project</a>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Coming Soon</span>
+                        <h3>Your Next Project</h3>
+                        <p>Ready to showcase your next successful project here. Contact us to get your business online with a professional website.</p>
+                        <div class="portfolio-tags">
+                            <span>E-Commerce</span>
+                            <span>Business Site</span>
+                            <span>Portfolio</span>
+                            <span>Custom Solution</span>
+                        </div>
+                    </div>
+                </div>
+    </div>
+</section>
 
     <!-- Stats Section -->
     <section class="why-choose-us">
@@ -184,11 +446,11 @@
                     </div>
                     <p>Building amazing websites for businesses across Nigeria.</p>
                     <div class="social-links">
-    <a href="#" aria-label="Facebook">f</a>
-    <a href="#" aria-label="Twitter">𝕏</a>
-    <a href="#" aria-label="Instagram">📷</a>
-    <a href="#" aria-label="LinkedIn">in</a>
-</div>
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">𝕏</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="LinkedIn">in</a>
+                    </div>
                 </div>
                 <div class="footer-section">
                     <h4>Quick Links</h4>
@@ -215,7 +477,7 @@
                     <ul class="contact-info">
                         <li>📞 <a href="tel:08056244696">08056244696</a></li>
                         <li>📧 <a href="mailto:softcodestudio44@gmail.com">softcodestudio44@gmail.com</a></li>
-                        <li>🌐 <a href="https://softcodestudio.vercel.app/">softcodestudio.vercel.app</a></li>
+                        <li>🌐 <a href="https://softcode-studio.vercel.app/">softcode-studio.vercel.app</a></li>
                         <li>📍 Lagos, Nigeria</li>
                     </ul>
                 </div>
@@ -226,25 +488,16 @@
         </div>
     </footer>
 
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/2348056244696?text=Hi%20Softcode%20Web%20Studio,%20I'm%20interested%20in%20getting%20a%20website%20for%20my%20business." 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Chat on WhatsApp">
+        💬
+    </a>
+    <div class="whatsapp-tooltip">Chat with us on WhatsApp</div>
+
     <script src="js/script.js"></script>
 </body>
-<!-- Preloader -->
-<div id="preloader">
-    <div class="preloader-content">
-        <div class="preloader-logo">
-            <img src="images/logo.png" alt="Softcode Web Studio">
-        </div>
-        <div class="preloader-text">
-            <span class="loading-text">Loading</span>
-            <span class="loading-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
-        </div>
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-    </div>
-</div>
 </html>
